@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -41,7 +42,7 @@ public:
     {
         string search;
         bool operator()(Book book) {
-            return ((book.author == search) && (book.title == search));
+            return (book.title == search || book.author == search);
         }
     };
 
@@ -50,6 +51,7 @@ public:
         find.search = search;
         vector<Book>::iterator bookSearch;
         bookSearch = find_if(books.begin(), books.end(), find);
+
         if (bookSearch == books.end()) {
             cout << "찾지 못하였습니다 \n";
             return ;
@@ -58,11 +60,22 @@ public:
     }
 };
 
+class BorrowManager
+{
+private:
+    unordered_map<string, int> stock;
+public:
+    void initializeStock(Book book, int quantity = 3) {
+
+    }
+
+};
+
 int main() {
     BookManager manager;
 
     while (true) {
-        cout << "\n도서관 관리 프로그램" << endl;
+        cout << "\n도서관 관리 프로그램 v 1.0" << endl;
         cout << "1. 책 추가" << endl;
         cout << "2. 모든 책 출력" << endl;
         cout << "3. 검색하기" << endl;
@@ -88,7 +101,7 @@ int main() {
             string search;
             cout << "책 이름 or 작가를 입력하세요" << endl;
             cin.ignore();
-            cin >> search;
+            getline(cin, search);
             manager.bookSearch(search);
         }
         else if (choice == 4) {
